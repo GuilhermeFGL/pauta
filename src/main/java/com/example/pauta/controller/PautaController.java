@@ -35,8 +35,8 @@ public class PautaController {
 
     @PostMapping
     public ResponseEntity<PautaResponse> createPauta(@RequestBody PautaRequest pautaDto) {
-        PautaResponse response = this.service.createNewPauta(pautaDto);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        PautaResponse pautaResponse = this.service.createNewPauta(pautaDto);
+        return new ResponseEntity<>(pautaResponse, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}/open")
