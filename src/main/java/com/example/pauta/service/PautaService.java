@@ -17,6 +17,8 @@ import java.util.Optional;
 @Service
 public class PautaService {
 
+    public static final String ERROR_INVALID_DESCRIPTION = "Description must not be empty or null";
+    public static final String ERROR_INVALID_DURATION = "Duration in minutes must be bigger than 1";
     private static final Integer DEFAULT_DURATION = 1;
 
     private final PautaRepository repository;
@@ -34,7 +36,7 @@ public class PautaService {
 
     public PautaResponse createNewPauta(PautaRequest pautaDto) {
         if (pautaDto.getDescription() == null || pautaDto.getDescription().isEmpty()) {
-            throw new InvalidPautaException("Description must not be null");
+            throw new InvalidPautaException(PautaService.ERROR_INVALID_DESCRIPTION);
         }
 
         PautaEntity pautaEntity = new PautaEntity();
@@ -48,10 +50,10 @@ public class PautaService {
 
     public PautaResponse openPauta(Long id, @Nullable Integer durationInMinutes) {
         if (durationInMinutes != null && durationInMinutes < PautaService.DEFAULT_DURATION) {
-            throw new InvalidOpenPautaException("Duration in minutes must be bigger than 1");
+            throw new InvalidOpenPautaException(PautaService.ERROR_INVALID_DURATION);
         }
 
-        Optional<PautaEntity> oPersisted = this.repository.findById(id);
+        Optional<PautaEntity> oPersisted = this.repository.findByIdAndStatusIsCreated(id);
         if (!oPersisted.isPresent()) {
             return null;
         }

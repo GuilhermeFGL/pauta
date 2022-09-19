@@ -30,7 +30,7 @@ public class PautaController {
     public ResponseEntity<PautaResponse> getPauta(@PathVariable Long id) {
         PautaResponse pautaResponse = this.service.getPauta(id);
         return new ResponseEntity<>(pautaResponse,
-                pautaResponse != null ? HttpStatus.CREATED : HttpStatus.NOT_FOUND);
+                pautaResponse != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
@@ -42,8 +42,9 @@ public class PautaController {
     @PatchMapping("/{id}/open")
     public ResponseEntity<PautaResponse> openPauta(@PathVariable Long id,
                                                    @RequestBody OpenPautaRequest openPautaRequest) {
-        PautaResponse response = this.service.openPauta(id, openPautaRequest.getDurationInMinutes());
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        PautaResponse pautaResponse = this.service.openPauta(id, openPautaRequest.getDurationInMinutes());
+        return new ResponseEntity<>(pautaResponse,
+                pautaResponse != null ? HttpStatus.ACCEPTED : HttpStatus.NO_CONTENT);
     }
 
 }

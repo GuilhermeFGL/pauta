@@ -14,9 +14,15 @@ public class PautaResponse {
     private Long id;
     private String description;
     private Integer durationInMinutes;
+
     private PautaStatus status;
     private PautaResult result;
+
     private LocalDateTime start;
     private LocalDateTime end;
+
+    private Double approvalPercentage;
+    private Integer approvedCount;
+    private Integer rejectedCount;
 
 }
