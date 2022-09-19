@@ -8,6 +8,9 @@ import com.example.pauta.repository.dao.enums.PautaStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @Service
 public class PautaService {
 
@@ -31,6 +34,22 @@ public class PautaService {
         pautaDao.setStatus(PautaStatus.CREATED);
 
         PautaDao persisted = this.repository.save(pautaDao);
+
+        return this.mapToResponse(persisted);
+    }
+
+    public PautaResponse openPauta(Long id) {
+        Optional<PautaDao> oPersisted = this.repository.findById(id);
+        if (!oPersisted.isPresent()) {
+            return null;
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        PautaDao persisted = oPersisted.get();
+        persisted.setStatus(PautaStatus.OPENED);
+        persisted.setStart(now);
+        persisted.setEnd(now.plusMinutes(persisted.getDuration()));
+        persisted = this.repository.save(persisted);
 
         return this.mapToResponse(persisted);
     }
