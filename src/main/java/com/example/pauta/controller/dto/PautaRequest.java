@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-public class PautaDto implements Serializable {
+public class PautaRequest implements Serializable {
 
     @NotNull
     @NotEmpty
