@@ -1,5 +1,6 @@
 package com.example.pauta.controller;
 
+import com.example.pauta.controller.dto.OpenPautaRequest;
 import com.example.pauta.controller.dto.PautaRequest;
 import com.example.pauta.controller.dto.PautaResponse;
 import com.example.pauta.service.PautaService;
@@ -39,8 +40,9 @@ public class PautaController {
     }
 
     @PatchMapping("/{id}/open")
-    public ResponseEntity<PautaResponse> openPauta(@PathVariable Long id) {
-        PautaResponse response = this.service.openPauta(id);
+    public ResponseEntity<PautaResponse> openPauta(@PathVariable Long id,
+                                                   @RequestBody OpenPautaRequest openPautaRequest) {
+        PautaResponse response = this.service.openPauta(id, openPautaRequest.getDurationInMinutes());
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

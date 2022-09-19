@@ -3,8 +3,8 @@ package com.example.pauta.controller.dto;
 import lombok.Data;
 
 @Data
-public class PautaRequest {
+public class OpenPautaRequest {
 
-    private String description;
+    private Integer durationInMinutes;
 
 }
