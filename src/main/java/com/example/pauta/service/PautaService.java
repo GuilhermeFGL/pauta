@@ -3,8 +3,8 @@ package com.example.pauta.service;
 import com.example.pauta.controller.dto.PautaRequest;
 import com.example.pauta.controller.dto.PautaResponse;
 import com.example.pauta.repository.PautaRepository;
-import com.example.pauta.repository.dao.PautaDao;
-import com.example.pauta.repository.dao.enums.PautaStatus;
+import com.example.pauta.repository.entity.PautaEntity;
+import com.example.pauta.repository.entity.enums.PautaStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,24 +28,24 @@ public class PautaService {
     }
 
     public PautaResponse createNewPauta(PautaRequest pautaDto) {
-        PautaDao pautaDao = new PautaDao();
-        pautaDao.setDescription(pautaDto.getDescription());
-        pautaDao.setDuration(pautaDto.getDurationInMinutes());
-        pautaDao.setStatus(PautaStatus.CREATED);
+        PautaEntity pautaEntity = new PautaEntity();
+        pautaEntity.setDescription(pautaDto.getDescription());
+        pautaEntity.setDuration(pautaDto.getDurationInMinutes());
+        pautaEntity.setStatus(PautaStatus.CREATED);
 
-        PautaDao persisted = this.repository.save(pautaDao);
+        PautaEntity persisted = this.repository.save(pautaEntity);
 
         return this.mapToResponse(persisted);
     }
 
     public PautaResponse openPauta(Long id) {
-        Optional<PautaDao> oPersisted = this.repository.findById(id);
+        Optional<PautaEntity> oPersisted = this.repository.findById(id);
         if (!oPersisted.isPresent()) {
             return null;
         }
 
         LocalDateTime now = LocalDateTime.now();
-        PautaDao persisted = oPersisted.get();
+        PautaEntity persisted = oPersisted.get();
         persisted.setStatus(PautaStatus.OPENED);
         persisted.setStart(now);
         persisted.setEnd(now.plusMinutes(persisted.getDuration()));
@@ -54,12 +54,15 @@ public class PautaService {
         return this.mapToResponse(persisted);
     }
 
-    private PautaResponse mapToResponse(PautaDao dao) {
+    private PautaResponse mapToResponse(PautaEntity entity) {
         PautaResponse response = new PautaResponse();
-        response.setId(dao.getId());
-        response.setDescription(dao.getDescription());
-        response.setDurationInMinutes(dao.getDuration());
-        response.setStatus(dao.getStatus());
+        response.setId(entity.getId());
+        response.setDescription(entity.getDescription());
+        response.setDurationInMinutes(entity.getDuration());
+        response.setStatus(entity.getStatus());
+        response.setResult(entity.getResult());
+        response.setStart(entity.getStart());
+        response.setEnd(entity.getEnd());
         return response;
     }
 

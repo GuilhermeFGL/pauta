@@ -1,4 +1,4 @@
-package com.example.pauta.repository.dao.enums;
+package com.example.pauta.repository.entity.enums;
 
 public enum PautaResult {
 
