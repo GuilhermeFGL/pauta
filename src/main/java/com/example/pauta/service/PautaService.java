@@ -18,19 +18,29 @@ public class PautaService {
         this.repository = repository;
     }
 
+    public PautaResponse getPauta(Long id) {
+        return this.repository.findById(id)
+                .map(this::mapToResponse)
+                .orElse(null);
+    }
+
     public PautaResponse createNewPauta(PautaRequest pautaDto) {
         PautaDao pautaDao = new PautaDao();
         pautaDao.setDescription(pautaDto.getDescription());
         pautaDao.setDuration(pautaDto.getDurationInMinutes());
         pautaDao.setStatus(PautaStatus.CREATED);
 
-        PautaDao persisted = repository.save(pautaDao);
+        PautaDao persisted = this.repository.save(pautaDao);
 
+        return this.mapToResponse(persisted);
+    }
+
+    private PautaResponse mapToResponse(PautaDao dao) {
         PautaResponse response = new PautaResponse();
-        response.setId(persisted.getId());
-        response.setDescription(persisted.getDescription());
-        response.setDurationInMinutes(persisted.getDuration());
-        response.setStatus(persisted.getStatus());
+        response.setId(dao.getId());
+        response.setDescription(dao.getDescription());
+        response.setDurationInMinutes(dao.getDuration());
+        response.setStatus(dao.getStatus());
         return response;
     }
 
