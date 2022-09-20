@@ -28,7 +28,7 @@ public class VotoController {
     @PostMapping
     public ResponseEntity<VotoResponse> commitVoto(@RequestHeader(value="userId") Long userId,
                                      @RequestBody VotoRequest votoDto) {
-        this.service.voto(userId, votoDto);
+        this.service.commitVoto(userId, votoDto);
 
         VotoResponse response = new VotoResponse();
         response.setMessage(MESSAGE_VOTO_COMMITTED);

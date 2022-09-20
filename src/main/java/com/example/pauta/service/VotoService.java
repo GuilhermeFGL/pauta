@@ -9,6 +9,7 @@ import com.example.pauta.service.exception.InvalidVotoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,7 +37,11 @@ public class VotoService {
         this.cpfService = cpfService;
     }
 
-    public void voto(Long userId, VotoRequest votoRequest) {
+    public List<VotoEntity> findVotosByPautaId(Long pautaId) {
+        return this.repository.findByVotoKeyPautaId(pautaId);
+    }
+
+    public void commitVoto(Long userId, VotoRequest votoRequest) {
         if (votoRequest.getVoto() == null) {
             throw new InvalidVotoException(VotoService.ERROR_VOTO_INVALID);
         }

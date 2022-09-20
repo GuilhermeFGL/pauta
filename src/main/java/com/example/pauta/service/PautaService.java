@@ -21,11 +21,15 @@ public class PautaService {
     public static final String ERROR_INVALID_DURATION = "Duration in minutes must be bigger than 1";
     private static final Integer DEFAULT_DURATION = 1;
 
+
     private final PautaRepository repository;
+    private final MessagePublisher messagePublisher;
 
     @Autowired
-    public PautaService(PautaRepository repository) {
+    public PautaService(PautaRepository repository,
+                        MessagePublisher messagePublisher) {
         this.repository = repository;
+        this.messagePublisher = messagePublisher;
     }
 
     public PautaResponse getPauta(Long id) {
@@ -78,6 +82,8 @@ public class PautaService {
         persisted.setEnd(now.plusMinutes(persisted.getDuration()));
 
         persisted = this.repository.save(persisted);
+
+        this.messagePublisher.sendMessageToClosePauta(persisted.getId(), persisted.getDuration());
 
         return this.mapToResponse(persisted);
     }
