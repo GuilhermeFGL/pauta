@@ -1,0 +1,17 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration
+
+cloud:
+  aws:
+    region:
+      static: us-east-1
+      auto: false
+    credentials:
+      access-key: AKIAQXUEPSBLT4XGCMUC
+      secret-key: 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
+    end-point:
+      uri: https://sqs.us-east-1.amazonaws.com/050743709783/pauta-queue
