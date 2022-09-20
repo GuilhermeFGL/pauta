@@ -5,21 +5,22 @@ import com.example.pauta.controller.dto.UserResponse;
 import com.example.pauta.repository.UserRepository;
 import com.example.pauta.repository.entity.UserEntity;
 import com.example.pauta.service.exception.InvalidUserException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
     @Mock
@@ -27,7 +28,7 @@ public class UserServiceTest {
 
     private UserService service;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.service = new UserService(this.repository);
     }
@@ -72,18 +73,17 @@ public class UserServiceTest {
         assertEquals(cpf, request.getCpf());
     }
 
-    @Test(expected = InvalidUserException.class)
+    @Test
     public void testCreateUserShouldNotCreateUserWhenCpfNull() {
         String cpf = null;
 
         UserRequest request = new UserRequest();
         request.setCpf(cpf);
 
-
-        this.service.createUser(request);
+        assertThrows(InvalidUserException.class, () -> this.service.createUser(request));
     }
 
-    @Test(expected = InvalidUserException.class)
+    @Test
     public void testCreateUserShouldNotCreateUserWhenCpfEmpty() {
         String cpf = "";
 
@@ -91,10 +91,10 @@ public class UserServiceTest {
         request.setCpf(cpf);
 
 
-        this.service.createUser(request);
+        assertThrows(InvalidUserException.class, () -> this.service.createUser(request));
     }
 
-    @Test(expected = InvalidUserException.class)
+    @Test
     public void testCreateUserShouldNotCreateUserWhenCpfInvalid() {
         String cpf = "XXX";
 
@@ -102,7 +102,7 @@ public class UserServiceTest {
         request.setCpf(cpf);
 
 
-        this.service.createUser(request);
+        assertThrows(InvalidUserException.class, () -> this.service.createUser(request));
     }
 
 }

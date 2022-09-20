@@ -7,11 +7,11 @@ import com.example.pauta.repository.VotoRepository;
 import com.example.pauta.repository.entity.VotoEntity;
 import com.example.pauta.repository.entity.enums.VotoOption;
 import com.example.pauta.service.exception.InvalidVotoException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +19,12 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class VotoServiceTest {
 
     @Mock
@@ -40,7 +41,7 @@ public class VotoServiceTest {
 
     private VotoService service;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.service = new VotoService(this.repository, this.userService, this.pautaService, this.cpfService);
     }
@@ -88,7 +89,7 @@ public class VotoServiceTest {
         assertEquals(userId, result.getVotoKey().getUserId());
     }
 
-    @Test(expected = InvalidVotoException.class)
+    @Test
     public void testCommitVotoShouldNotCreateVotoWhenVotoIsInvalid() {
         Long userId = 1L;
         Long pautaId = 1L;
@@ -98,10 +99,10 @@ public class VotoServiceTest {
         voto.setVoto(votoOption);
         voto.setPautaId(pautaId);
 
-        this.service.commitVoto(userId, voto);
+        assertThrows(InvalidVotoException.class, () -> this.service.commitVoto(userId, voto));
     }
 
-    @Test(expected = InvalidVotoException.class)
+    @Test
     public void testCommitVotoShouldNotCreateVotoWhenUserNotFound() {
         Long userId = 1L;
         Long pautaId = 1L;
@@ -113,10 +114,10 @@ public class VotoServiceTest {
 
         when(this.userService.getUser(eq(userId))).thenReturn(null);
 
-        this.service.commitVoto(userId, voto);
+        assertThrows(InvalidVotoException.class, () -> this.service.commitVoto(userId, voto));
     }
 
-    @Test(expected = InvalidVotoException.class)
+    @Test
     public void testCommitVotoShouldNotCreateVotoWhenPautaNotFound() {
         Long userId = 1L;
         Long pautaId = 1L;
@@ -134,10 +135,10 @@ public class VotoServiceTest {
         when(this.userService.getUser(eq(userId))).thenReturn(user);
         when(this.pautaService.getOnGoingPauta(eq(pautaId))).thenReturn(null);
 
-        this.service.commitVoto(userId, voto);
+        assertThrows(InvalidVotoException.class, () -> this.service.commitVoto(userId, voto));
     }
 
-    @Test(expected = InvalidVotoException.class)
+    @Test
     public void testCommitVotoShouldNotCreateVotoWhenVotoAlreadyExists() {
         Long userId = 1L;
         Long pautaId = 1L;
@@ -159,10 +160,10 @@ public class VotoServiceTest {
         when(this.pautaService.getOnGoingPauta(eq(pautaId))).thenReturn(pauta);
         when(this.repository.findById(any(VotoEntity.PautaUserKey.class))).thenReturn(Optional.of(new VotoEntity()));
 
-        this.service.commitVoto(userId, voto);
+        assertThrows(InvalidVotoException.class, () -> this.service.commitVoto(userId, voto));
     }
 
-    @Test(expected = InvalidVotoException.class)
+    @Test
     public void testCommitVotoShouldNotCreateVotoWhenUnableToVote() {
         Long userId = 1L;
         Long pautaId = 1L;
@@ -185,7 +186,7 @@ public class VotoServiceTest {
         when(this.repository.findById(any(VotoEntity.PautaUserKey.class))).thenReturn(Optional.empty());
         when(this.cpfService.cpfCanVote(eq(cpf))).thenReturn(false);
 
-        this.service.commitVoto(userId, voto);
+        assertThrows(InvalidVotoException.class, () -> this.service.commitVoto(userId, voto));
     }
 
 }

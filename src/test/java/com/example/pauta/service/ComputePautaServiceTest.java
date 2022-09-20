@@ -5,11 +5,11 @@ import com.example.pauta.repository.entity.PautaEntity;
 import com.example.pauta.repository.entity.VotoEntity;
 import com.example.pauta.repository.entity.enums.PautaResult;
 import com.example.pauta.repository.entity.enums.VotoOption;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ComputePautaServiceTest {
 
     @Mock
@@ -35,7 +35,7 @@ public class ComputePautaServiceTest {
 
     private ComputePautaService service;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.service = new ComputePautaService(repository, votoService, messagePublisher);
         ReflectionTestUtils.setField(service, "pautaApprovalScore", 0.5);

@@ -2,11 +2,11 @@ package com.example.pauta.service;
 
 import com.example.pauta.service.dto.CpfResponse;
 import com.example.pauta.service.dto.enums.CpfStatus;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.HttpClientErrorException;
@@ -18,7 +18,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CpfServiceTest {
 
     @Mock
@@ -26,7 +26,7 @@ public class CpfServiceTest {
 
     private CpfService service;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.service = new CpfService(restTemplate);
         ReflectionTestUtils.setField(service, "cpfUrl", "http://cpf.url");

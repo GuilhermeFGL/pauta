@@ -2,11 +2,11 @@ package com.example.pauta.service;
 
 import com.example.pauta.repository.entity.enums.PautaResult;
 import com.example.pauta.service.dto.PautaResultMessage;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.cloud.aws.messaging.core.QueueMessagingTemplate;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MessagePublisherTest {
 
     @Mock
@@ -25,7 +25,7 @@ public class MessagePublisherTest {
 
     private MessagePublisher service;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.service = new MessagePublisher(this.queueMessagingTemplate);
         ReflectionTestUtils.setField(service, "closePautaEndpoint", "http://closePautaEndpoint");

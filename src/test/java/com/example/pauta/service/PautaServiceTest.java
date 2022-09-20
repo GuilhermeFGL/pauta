@@ -7,23 +7,26 @@ import com.example.pauta.repository.entity.PautaEntity;
 import com.example.pauta.repository.entity.enums.PautaStatus;
 import com.example.pauta.service.exception.InvalidOpenPautaException;
 import com.example.pauta.service.exception.InvalidPautaException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class PautaServiceTest {
 
     @Mock
@@ -34,7 +37,7 @@ public class PautaServiceTest {
 
     private PautaService service;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.service = new PautaService(this.repository, this.messagePublisher);
     }
@@ -114,29 +117,29 @@ public class PautaServiceTest {
         assertEquals(PautaStatus.CREATED, result.getStatus());
     }
 
-    @Test(expected = InvalidPautaException.class)
+    @Test
     public void testCreateNewPautaShouldNotCreatePautaWhenInvalid() {
         PautaRequest pautaDto = new PautaRequest();
         pautaDto.setDescription("description");
 
         when(this.repository.save(any(PautaEntity.class))).thenThrow(new InvalidPautaException("message"));
 
-        this.service.createNewPauta(pautaDto);
+        assertThrows(InvalidPautaException.class, () -> this.service.createNewPauta(pautaDto));
     }
 
-    @Test(expected = InvalidPautaException.class)
+    @Test
     public void testCreateNewPautaShouldNotCreatePautaWhenInvalidDescriptionNull() {
         PautaRequest pautaDto = new PautaRequest();
 
-        this.service.createNewPauta(pautaDto);
+        assertThrows(InvalidPautaException.class, () -> this.service.createNewPauta(pautaDto));
     }
 
-    @Test(expected = InvalidPautaException.class)
+    @Test
     public void testCreateNewPautaShouldNotCreatePautaWhenInvalidDescriptionEmpty() {
         PautaRequest pautaDto = new PautaRequest();
         pautaDto.setDescription("");
 
-        this.service.createNewPauta(pautaDto);
+        assertThrows(InvalidPautaException.class, () -> this.service.createNewPauta(pautaDto));
     }
 
     @Test
@@ -185,12 +188,12 @@ public class PautaServiceTest {
         verify(this.messagePublisher, times(1)).sendMessageToClosePauta(eq(id), eq(duration));
     }
 
-    @Test(expected = InvalidOpenPautaException.class)
+    @Test
     public void testOpenPautaShouldNotOpenPautaWhenInvalidDuration() {
         Long id = 1L;
         Integer duration = -1;
 
-        this.service.openPauta(id, duration);
+        assertThrows(InvalidOpenPautaException.class, () -> this.service.openPauta(id, duration));
     }
 
     @Test
