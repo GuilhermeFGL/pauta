@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-public class InvalidVoteException extends RuntimeException {
+public class InvalidVotoException extends RuntimeException {
 
-    public InvalidVoteException(String message) {
+    public InvalidVotoException(String message) {
         super(message);
     }
 }

@@ -14,7 +14,7 @@ import java.io.Serializable;
 
 @Data
 @EqualsAndHashCode
-@Entity(name = "user")
+@Entity(name = "voto")
 public class VotoEntity {
 
     @EmbeddedId

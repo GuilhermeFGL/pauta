@@ -35,7 +35,7 @@ public class PautaService {
     }
 
     public PautaResponse getOnGoingPauta(Long id) {
-        return this.repository.findById(id)
+        return this.repository.findByIdAndStatusIsOpenedAndEndIsAfterThanDate(id, LocalDateTime.now())
                 .map(this::mapToResponse)
                 .orElse(null);
     }
