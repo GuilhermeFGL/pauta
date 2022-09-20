@@ -21,7 +21,7 @@ public class MessageService {
 
     public void sendMessage(String message) {
         ListenableFuture<SendResult<String, String>> future =
-                kafkaTemplate.send(KafkaTopicConfig.TOPIC_NAME, message);
+                kafkaTemplate.send(KafkaTopicConfig.TOPIC_PAUTA_CLOSE, message);
 
         future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
 
@@ -39,8 +39,13 @@ public class MessageService {
         });
     }
 
-    @KafkaListener(topics = KafkaTopicConfig.TOPIC_NAME, groupId = KafkaTopicConfig.GROUP_ID)
-    public void listenGroupFoo(String message) {
+    @KafkaListener(topics = KafkaTopicConfig.TOPIC_PAUTA_CLOSE, groupId = KafkaTopicConfig.GROUP_ID)
+    public void listenClosePauta(String message) {
+        System.out.println("Received Message in group: " + message);
+    }
+
+    @KafkaListener(topics = KafkaTopicConfig.TOPIC_PAUTA_RESULT, groupId = KafkaTopicConfig.GROUP_ID)
+    public void listenPautaResult(String message) {
         System.out.println("Received Message in group: " + message);
     }
 

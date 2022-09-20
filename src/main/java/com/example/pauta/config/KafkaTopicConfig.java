@@ -13,7 +13,8 @@ import java.util.Map;
 @Configuration
 public class KafkaTopicConfig {
 
-    public static final String TOPIC_NAME = "pauta";
+    public static final String TOPIC_PAUTA_CLOSE = "clouse_pauta";
+    public static final String TOPIC_PAUTA_RESULT = "clouse_pauta";
     public static final String GROUP_ID = "group";
     
     @Value(value = "${kafka.bootstrapAddress}")
@@ -27,7 +28,12 @@ public class KafkaTopicConfig {
     }
     
     @Bean
-    public NewTopic topicPauta() {
-         return new NewTopic("pauta", 1, (short) 1);
+    public NewTopic topicClosePauta() {
+         return new NewTopic(KafkaTopicConfig.TOPIC_PAUTA_CLOSE, 1, (short) 1);
+    }
+
+    @Bean
+    public NewTopic topicPautaResult() {
+        return new NewTopic(KafkaTopicConfig.TOPIC_PAUTA_RESULT, 1, (short) 1);
     }
 }
