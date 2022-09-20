@@ -21,8 +21,4 @@ public class PautaResponse {
     private LocalDateTime start;
     private LocalDateTime end;
 
-    private Double approvalPercentage;
-    private Integer approvedCount;
-    private Integer rejectedCount;
-
 }

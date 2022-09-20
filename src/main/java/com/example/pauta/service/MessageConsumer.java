@@ -1,5 +1,6 @@
 package com.example.pauta.service;
 
+import com.example.pauta.service.dto.PautaResultMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.aws.messaging.listener.SqsMessageDeletionPolicy;
@@ -18,10 +19,16 @@ public class MessageConsumer {
     }
 
     @SqsListener(value = "pauta-queue", deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
-    public void processMessage(Long pautaId) {
-        MessageConsumer.log.info("Message from SQS {}", pautaId);
+    public void publishClosePautaMessage(Long pautaId) {
+        MessageConsumer.log.info("Message from SQS pauta-queue. Pauta ID: {}", pautaId);
 
         computePautaService.closePauta(pautaId);
+    }
+
+    @SqsListener(value = "publish-queue", deletionPolicy = SqsMessageDeletionPolicy.NEVER)
+    public void publishPautaResultMessage(PautaResultMessage result) {
+        MessageConsumer.log.info("Message from SQS publish-queue. Pauta ID: {}, Result: {}",
+                result.getPautaId(), result.getResult());
     }
 
 }

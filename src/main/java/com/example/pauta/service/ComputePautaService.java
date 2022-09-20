@@ -8,6 +8,7 @@ import com.example.pauta.repository.entity.enums.PautaStatus;
 import com.example.pauta.repository.entity.enums.VotoOption;
 import com.example.pauta.service.exception.InvalidPautaException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,8 @@ import java.util.Optional;
 @Service
 public class ComputePautaService {
 
-    public static final Double PAUTA_APPROVEMENT_SCORE = 0.5;
+    @Value("#{new Double('${pauta.approval-score}')}")
+    private Double pautaApprovalScore;
 
     private final PautaRepository repository;
     private final VotoService votoService;
@@ -45,11 +47,13 @@ public class ComputePautaService {
 
         pauta.setStatus(PautaStatus.CLOSED);
         pauta.setResult(this.computePautaResult(approved, rejected));
-        this.repository.save(pauta);
+        pauta = this.repository.save(pauta);
+
+        this.messagePublisher.sendMessageToPublishPautaResult(pauta.getId(), pauta.getResult());
     }
 
     private PautaResult computePautaResult(Long approved, Long rejected) {
-        return rejected == 0 || Double.valueOf(approved) / Double.valueOf(rejected) >= PAUTA_APPROVEMENT_SCORE ?
+        return rejected == 0 || Double.valueOf(approved) / Double.valueOf(rejected) >= this.pautaApprovalScore ?
                 PautaResult.APPROVED : PautaResult.REJECTED;
     }
 

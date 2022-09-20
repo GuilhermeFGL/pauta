@@ -14,4 +14,5 @@ cloud:
       access-key: AKIAQXUEPSBLT4XGCMUC
       secret-key: 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
     end-point:
-      uri: https://sqs.us-east-1.amazonaws.com/050743709783/pauta-queue
+      close-pauta: https://sqs.us-east-1.amazonaws.com/050743709783/pauta-queue
+      publish-pauta: https://sqs.us-east-1.amazonaws.com/050743709783/publish-queue
