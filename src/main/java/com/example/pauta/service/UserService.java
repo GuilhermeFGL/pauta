@@ -29,11 +29,11 @@ public class UserService {
 
     public UserResponse create(UserRequest request) {
         if (request.getCpf() == null || request.getCpf().isEmpty()) {
-            throw new InvalidUserException(ERROR_INVALID_CFP_EMPTY);
+            throw new InvalidUserException(UserService.ERROR_INVALID_CFP_EMPTY);
         }
 
         if (!ValidateCpfHelper.isCPF(request.getCpf())) {
-            throw new InvalidUserException(ERROR_INVALID_CFP_NUMBER);
+            throw new InvalidUserException(UserService.ERROR_INVALID_CFP_NUMBER);
         }
 
         UserEntity entity = new UserEntity();

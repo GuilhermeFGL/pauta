@@ -34,6 +34,12 @@ public class PautaService {
                 .orElse(null);
     }
 
+    public PautaResponse getOnGoingPauta(Long id) {
+        return this.repository.findById(id)
+                .map(this::mapToResponse)
+                .orElse(null);
+    }
+
     public PautaResponse createNewPauta(PautaRequest pautaDto) {
         if (pautaDto.getDescription() == null || pautaDto.getDescription().isEmpty()) {
             throw new InvalidPautaException(PautaService.ERROR_INVALID_DESCRIPTION);
