@@ -33,7 +33,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userDto) {
-        UserResponse userResponse = this.service.create(userDto);
+        UserResponse userResponse = this.service.createUser(userDto);
         return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
     }
 }

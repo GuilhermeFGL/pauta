@@ -14,6 +14,7 @@ public class UserService {
 
     public static final String ERROR_INVALID_CFP_EMPTY = "CPF must not be empty or null";
     public static final String ERROR_INVALID_CFP_NUMBER = "CPF is not valid";
+
     private final UserRepository repository;
 
     @Autowired
@@ -27,7 +28,7 @@ public class UserService {
                 .orElse(null);
     }
 
-    public UserResponse create(UserRequest request) {
+    public UserResponse createUser(UserRequest request) {
         if (request.getCpf() == null || request.getCpf().isEmpty()) {
             throw new InvalidUserException(UserService.ERROR_INVALID_CFP_EMPTY);
         }

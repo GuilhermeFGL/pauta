@@ -43,8 +43,7 @@ public class MessagePublisher {
                         new AbstractMap.SimpleEntry<>(SqsMessageHeaders.SQS_DELAY_HEADER, duration * SECONDS_IN_MINUTE))
                 .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
 
-        this.queueMessagingTemplate
-                .convertAndSend(this.closePautaEndpoint, pautaId, headers);
+        this.queueMessagingTemplate.convertAndSend(this.closePautaEndpoint, pautaId, headers);
     }
 
     public void sendMessageToPublishPautaResult(Long pautaId, PautaResult result) {

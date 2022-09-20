@@ -3,6 +3,7 @@ package com.example.pauta.service;
 import com.example.pauta.service.dto.CpfResponse;
 import com.example.pauta.service.dto.enums.CpfStatus;
 import com.example.pauta.service.exception.CpfIntegrationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,13 @@ public class CpfService {
     @Value("${cfp.url}")
     private String cpfUrl;
 
+    private final RestTemplate restTemplate;
+
+    @Autowired
+    public CpfService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     public boolean cpfCanVote(String cpf) {
         String uri = UriComponentsBuilder.fromHttpUrl(this.cpfUrl)
                 .path(cpf)
@@ -23,7 +31,7 @@ public class CpfService {
 
         CpfResponse result;
         try {
-            result = new RestTemplate().getForObject(uri, CpfResponse.class);
+            result = this.restTemplate.getForObject(uri, CpfResponse.class);
 
         } catch (final HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {

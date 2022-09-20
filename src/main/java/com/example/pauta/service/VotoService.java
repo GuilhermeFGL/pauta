@@ -15,8 +15,8 @@ import java.util.Optional;
 @Service
 public class VotoService {
 
-    public static final String ERROR_USER_NOT_FOUND = "User not found";
-    public static final String ERROR_PAUTA_NOT_FOUND = "Pauta not found";
+    private static final String ERROR_USER_NOT_FOUND = "User not found";
+    private static final String ERROR_PAUTA_NOT_FOUND = "Pauta not found";
     private static final String ERROR_VOTO_ALREADY_COMMITTED = "Voto is already commited";
     private static final String ERROR_VOTO_INVALID = "Voto must not be null";
     private static final String ERROR_VOTO_UNABLE = "Unable to commit voto";
@@ -41,7 +41,7 @@ public class VotoService {
         return this.repository.findByVotoKeyPautaId(pautaId);
     }
 
-    public void commitVoto(Long userId, VotoRequest votoRequest) {
+    public VotoEntity commitVoto(Long userId, VotoRequest votoRequest) {
         if (votoRequest.getVoto() == null) {
             throw new InvalidVotoException(VotoService.ERROR_VOTO_INVALID);
         }
@@ -73,7 +73,7 @@ public class VotoService {
         voto.setVotoKey(votoKey);
         voto.setVoto(votoRequest.getVoto());
 
-        this.repository.save(voto);
+        return this.repository.save(voto);
     }
 
 }
