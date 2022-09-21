@@ -78,7 +78,7 @@ public class PautaServiceTest {
         when(this.repository.findByIdAndStatusIsOpenedAndEndIsAfterThanDate(eq(id), any(LocalDateTime.class)))
                 .thenReturn(Optional.of(pauta));
 
-        PautaResponse result = this.service.getOnGoingPauta(id);
+        PautaResponse result = this.service.getOngoingPauta(id);
 
         assertNotNull(result);
         assertEquals(id, result.getId());
@@ -94,7 +94,7 @@ public class PautaServiceTest {
         when(this.repository.findByIdAndStatusIsOpenedAndEndIsAfterThanDate(eq(id), any(LocalDateTime.class)))
                 .thenReturn(Optional.empty());
 
-        PautaResponse result = this.service.getOnGoingPauta(id);
+        PautaResponse result = this.service.getOngoingPauta(id);
 
         assertNull(result);
     }

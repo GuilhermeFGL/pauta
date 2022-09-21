@@ -3,6 +3,7 @@ package com.example.pauta.service;
 import com.example.pauta.service.dto.CpfResponse;
 import com.example.pauta.service.dto.enums.CpfStatus;
 import com.example.pauta.service.exception.CpfIntegrationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+@Slf4j
 @Service
 public class CpfService {
 
@@ -25,6 +27,8 @@ public class CpfService {
     }
 
     public boolean cpfCanVote(String cpf) {
+        CpfService.log.info("Check CPF can vote for CPF {}", cpf);
+
         String uri = UriComponentsBuilder.fromHttpUrl(this.cpfUrl)
                 .path(cpf)
                 .toUriString();
@@ -37,6 +41,7 @@ public class CpfService {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
                 return false;
             } else {
+                CpfService.log.error("CPF service returned error: {}", e.getStatusCode());
                 throw new CpfIntegrationException("Unable to validate CPF");
             }
         }

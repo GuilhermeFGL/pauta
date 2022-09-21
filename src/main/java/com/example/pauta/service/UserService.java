@@ -6,14 +6,15 @@ import com.example.pauta.helper.ValidateCpfHelper;
 import com.example.pauta.repository.UserRepository;
 import com.example.pauta.repository.entity.UserEntity;
 import com.example.pauta.service.exception.InvalidUserException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class UserService {
 
-    public static final String ERROR_INVALID_CFP_EMPTY = "CPF must not be empty or null";
-    public static final String ERROR_INVALID_CFP_NUMBER = "CPF is not valid";
+    public static final String ERROR_INVALID_CFP = "CPF is not valid";
 
     private final UserRepository repository;
 
@@ -29,12 +30,11 @@ public class UserService {
     }
 
     public UserResponse createUser(UserRequest request) {
-        if (request.getCpf() == null || request.getCpf().isEmpty()) {
-            throw new InvalidUserException(UserService.ERROR_INVALID_CFP_EMPTY);
-        }
+        UserService.log.info("Create user for CPF {}", request.getCpf());
 
-        if (!ValidateCpfHelper.isCPF(request.getCpf())) {
-            throw new InvalidUserException(UserService.ERROR_INVALID_CFP_NUMBER);
+        if (request.getCpf() == null || request.getCpf().isEmpty() || !ValidateCpfHelper.isCPF(request.getCpf())) {
+            UserService.log.error("Invalid CPF number {}", request.getCpf());
+            throw new InvalidUserException(UserService.ERROR_INVALID_CFP);
         }
 
         UserEntity entity = new UserEntity();

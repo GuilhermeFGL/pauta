@@ -76,7 +76,7 @@ public class VotoServiceTest {
         pauta.setId(pautaId);
 
         when(this.userService.getUser(eq(userId))).thenReturn(user);
-        when(this.pautaService.getOnGoingPauta(eq(pautaId))).thenReturn(pauta);
+        when(this.pautaService.getOngoingPauta(eq(pautaId))).thenReturn(pauta);
         when(this.repository.findById(any(VotoEntity.PautaUserKey.class))).thenReturn(Optional.empty());
         when(this.cpfService.cpfCanVote(eq(cpf))).thenReturn(true);
         when(this.repository.save(any(VotoEntity.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -133,7 +133,7 @@ public class VotoServiceTest {
         user.setId(userId);
 
         when(this.userService.getUser(eq(userId))).thenReturn(user);
-        when(this.pautaService.getOnGoingPauta(eq(pautaId))).thenReturn(null);
+        when(this.pautaService.getOngoingPauta(eq(pautaId))).thenReturn(null);
 
         assertThrows(InvalidVotoException.class, () -> this.service.commitVoto(userId, voto));
     }
@@ -157,7 +157,7 @@ public class VotoServiceTest {
         pauta.setId(pautaId);
 
         when(this.userService.getUser(eq(userId))).thenReturn(user);
-        when(this.pautaService.getOnGoingPauta(eq(pautaId))).thenReturn(pauta);
+        when(this.pautaService.getOngoingPauta(eq(pautaId))).thenReturn(pauta);
         when(this.repository.findById(any(VotoEntity.PautaUserKey.class))).thenReturn(Optional.of(new VotoEntity()));
 
         assertThrows(InvalidVotoException.class, () -> this.service.commitVoto(userId, voto));
@@ -182,7 +182,7 @@ public class VotoServiceTest {
         pauta.setId(pautaId);
 
         when(this.userService.getUser(eq(userId))).thenReturn(user);
-        when(this.pautaService.getOnGoingPauta(eq(pautaId))).thenReturn(pauta);
+        when(this.pautaService.getOngoingPauta(eq(pautaId))).thenReturn(pauta);
         when(this.repository.findById(any(VotoEntity.PautaUserKey.class))).thenReturn(Optional.empty());
         when(this.cpfService.cpfCanVote(eq(cpf))).thenReturn(false);
 
