@@ -62,7 +62,7 @@ public class VotoServiceTest {
         Long userId = 1L;
         Long pautaId = 1L;
         String cpf = "XXX";
-        VotoOption votoOption = VotoOption.APPROVE;
+        VotoOption votoOption = VotoOption.SIM;
 
         VotoRequest voto = new VotoRequest();
         voto.setVoto(votoOption);
@@ -106,7 +106,7 @@ public class VotoServiceTest {
     public void testCommitVotoShouldNotCreateVotoWhenUserNotFound() {
         Long userId = 1L;
         Long pautaId = 1L;
-        VotoOption votoOption = VotoOption.APPROVE;
+        VotoOption votoOption = VotoOption.SIM;
 
         VotoRequest voto = new VotoRequest();
         voto.setVoto(votoOption);
@@ -122,7 +122,7 @@ public class VotoServiceTest {
         Long userId = 1L;
         Long pautaId = 1L;
         String cpf = "XXX";
-        VotoOption votoOption = VotoOption.APPROVE;
+        VotoOption votoOption = VotoOption.SIM;
 
         VotoRequest voto = new VotoRequest();
         voto.setVoto(votoOption);
@@ -143,7 +143,7 @@ public class VotoServiceTest {
         Long userId = 1L;
         Long pautaId = 1L;
         String cpf = "XXX";
-        VotoOption votoOption = VotoOption.APPROVE;
+        VotoOption votoOption = VotoOption.SIM;
 
         VotoRequest voto = new VotoRequest();
         voto.setVoto(votoOption);
@@ -168,7 +168,7 @@ public class VotoServiceTest {
         Long userId = 1L;
         Long pautaId = 1L;
         String cpf = "XXX";
-        VotoOption votoOption = VotoOption.APPROVE;
+        VotoOption votoOption = VotoOption.SIM;
 
         VotoRequest voto = new VotoRequest();
         voto.setVoto(votoOption);

@@ -42,8 +42,8 @@ public class ComputePautaService {
         PautaEntity pauta = oPauta.get();
 
         List<VotoEntity> votos = this.votoService.findVotosByPautaId(pauta.getId());
-        Long approved = votos.stream().filter(v -> v.getVoto() == VotoOption.APPROVE).count();
-        Long rejected = votos.stream().filter(v -> v.getVoto() == VotoOption.REJECT).count();
+        Long approved = votos.stream().filter(v -> v.getVoto() == VotoOption.SIM).count();
+        Long rejected = votos.stream().filter(v -> v.getVoto() == VotoOption.NAO).count();
 
         pauta.setStatus(PautaStatus.CLOSED);
         pauta.setResult(this.computePautaResult(approved, rejected));

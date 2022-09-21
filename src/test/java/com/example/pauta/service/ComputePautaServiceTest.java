@@ -53,7 +53,7 @@ public class ComputePautaServiceTest {
         pauta.setId(pautaId);
 
         VotoEntity voto = new VotoEntity();
-        voto.setVoto(VotoOption.REJECT);
+        voto.setVoto(VotoOption.NAO);
 
         when(this.repository.findById(eq(pautaId))).thenReturn(Optional.of(pauta));
         when(this.votoService.findVotosByPautaId(eq(pautaId))).thenReturn(Collections.singletonList(voto));
@@ -73,7 +73,7 @@ public class ComputePautaServiceTest {
         pauta.setId(pautaId);
 
         VotoEntity voto = new VotoEntity();
-        voto.setVoto(VotoOption.APPROVE);
+        voto.setVoto(VotoOption.SIM);
 
         when(this.repository.findById(eq(pautaId))).thenReturn(Optional.of(pauta));
         when(this.votoService.findVotosByPautaId(eq(pautaId))).thenReturn(Collections.singletonList(voto));
@@ -93,10 +93,10 @@ public class ComputePautaServiceTest {
         pauta.setId(pautaId);
 
         VotoEntity voto1 = new VotoEntity();
-        voto1.setVoto(VotoOption.APPROVE);
+        voto1.setVoto(VotoOption.SIM);
 
         VotoEntity voto2 = new VotoEntity();
-        voto2.setVoto(VotoOption.REJECT);
+        voto2.setVoto(VotoOption.NAO);
 
         when(this.repository.findById(eq(pautaId))).thenReturn(Optional.of(pauta));
         when(this.votoService.findVotosByPautaId(eq(pautaId))).thenReturn(Arrays.asList(voto1, voto2));
