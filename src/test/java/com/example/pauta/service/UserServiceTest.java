@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -65,6 +66,7 @@ public class UserServiceTest {
         UserRequest request = new UserRequest();
         request.setCpf(cpf);
 
+        when(this.repository.findByCpf(eq(cpf))).thenReturn(Optional.empty());
         when(this.repository.save(any(UserEntity.class))).thenAnswer(i -> i.getArguments()[0]);
 
         UserResponse result = this.service.createUser(request);
@@ -90,7 +92,6 @@ public class UserServiceTest {
         UserRequest request = new UserRequest();
         request.setCpf(cpf);
 
-
         assertThrows(InvalidUserException.class, () -> this.service.createUser(request));
     }
 
@@ -101,6 +102,17 @@ public class UserServiceTest {
         UserRequest request = new UserRequest();
         request.setCpf(cpf);
 
+        assertThrows(InvalidUserException.class, () -> this.service.createUser(request));
+    }
+
+    @Test
+    public void testCreateUserShouldNotCreateUserWhenCpfAlreadyRegistered() {
+        String cpf = "47934290098";
+
+        UserRequest request = new UserRequest();
+        request.setCpf(cpf);
+
+        when(this.repository.findByCpf(eq(cpf))).thenReturn(Optional.of(new UserEntity()));
 
         assertThrows(InvalidUserException.class, () -> this.service.createUser(request));
     }

@@ -10,11 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 public class UserService {
 
     public static final String ERROR_INVALID_CFP = "CPF is not valid";
+    public static final String ERROR_DUPLICATED_CFP = "CPF already registered";
 
     private final UserRepository repository;
 
@@ -35,6 +38,12 @@ public class UserService {
         if (request.getCpf() == null || request.getCpf().isEmpty() || !ValidateCpfHelper.isCPF(request.getCpf())) {
             UserService.log.error("Invalid CPF number {}", request.getCpf());
             throw new InvalidUserException(UserService.ERROR_INVALID_CFP);
+        }
+
+        Optional<UserEntity> oUser = this.repository.findByCpf(request.getCpf());
+        if (oUser.isPresent()) {
+            UserService.log.error("CPF already registered {}", request.getCpf());
+            throw new InvalidUserException(UserService.ERROR_DUPLICATED_CFP);
         }
 
         UserEntity entity = new UserEntity();

@@ -15,3 +15,9 @@ Message Queue services hosted in AWS SQS:
 https://sqs.us-east-1.amazonaws.com/050743709783/pauta-queue
 https://sqs.us-east-1.amazonaws.com/050743709783/publish-queue
 ```
+
+To run the application:
+```
+\: mvn clean install
+\: mvn spring-boot:run
+```
