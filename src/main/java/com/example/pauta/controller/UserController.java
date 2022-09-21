@@ -3,6 +3,7 @@ package com.example.pauta.controller;
 import com.example.pauta.controller.dto.UserRequest;
 import com.example.pauta.controller.dto.UserResponse;
 import com.example.pauta.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class UserController {
         this.service = service;
     }
 
+    @Operation(summary = "Get description of an user by ID")
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
         UserResponse userResponse = this.service.getUser(id);
@@ -31,6 +33,7 @@ public class UserController {
                 userResponse != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
+    @Operation(summary = "Create new user")
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userDto) {
         UserResponse userResponse = this.service.createUser(userDto);

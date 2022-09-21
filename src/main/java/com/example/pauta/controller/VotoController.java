@@ -3,6 +3,7 @@ package com.example.pauta.controller;
 import com.example.pauta.controller.dto.VotoRequest;
 import com.example.pauta.controller.dto.VotoResponse;
 import com.example.pauta.service.VotoService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ public class VotoController {
         this.service = service;
     }
 
+    @Operation(summary = "Commit voto by user and pauta")
     @PostMapping
     public ResponseEntity<VotoResponse> commitVoto(@RequestHeader(value="userId") Long userId,
                                      @RequestBody VotoRequest votoDto) {
