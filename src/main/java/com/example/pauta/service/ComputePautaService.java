@@ -53,7 +53,8 @@ public class ComputePautaService {
     }
 
     private PautaResult computePautaResult(Long approved, Long rejected) {
-        return rejected == 0 || Double.valueOf(approved) / Double.valueOf(rejected) >= this.pautaApprovalScore ?
+        return approved > 0 &&
+                (rejected == 0 || Double.valueOf(approved) / Double.valueOf(rejected) >= this.pautaApprovalScore) ?
                 PautaResult.APPROVED : PautaResult.REJECTED;
     }
 
